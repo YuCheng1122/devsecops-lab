@@ -24,3 +24,4 @@ def test_health(client):
 def test_user_endpoint_exists(client):
     response = client.get("/user?username=test")
     assert response.status_code == 200
+test change
