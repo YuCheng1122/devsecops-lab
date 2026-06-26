@@ -21,6 +21,8 @@ def test_health(client):
     assert data["status"] == "ok"
 
 
-def test_user_endpoint_exists(client):
-    response = client.get("/user?username=test")
+def test_calc_endpoint(client):
+    response = client.get("/calc?expr=1%2B1")
     assert response.status_code == 200
+    data = response.get_json()
+    assert data["result"] == 2
