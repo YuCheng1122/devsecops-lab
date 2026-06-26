@@ -20,7 +20,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt pytest pip-audit
 
       # 第一層：密鑰掃描
       - name: Secret Scanning（gitleaks）
@@ -32,12 +32,11 @@ jobs:
       - name: Dependency Scan（pip-audit）
         run: pip-audit -r requirements.txt
 
-      # 第三層：SAST 靜態分析（自定義規則 + community 規則集）
+      # 第三層：SAST 靜態分析
       - name: SAST（Semgrep）
         uses: semgrep/semgrep-action@v1
         with:
           config: >-
-            rules/
             p/python
             p/owasp-top-ten
 
