@@ -1,11 +1,11 @@
 title = "devsecops-lab gitleaks config"
 
+[extend]
+useDefault = true
+
 [allowlist]
-  description = "Allowlist for known test credentials"
-  regexes = [
-    "AKIAIOSFODNN7EXAMPLE",
-    "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-  ]
+  description = "Suppress false positives from docs and instructor materials"
   paths = [
-    "app/config.py"
+    "README\\.md",
+    "instructor/",
   ]
