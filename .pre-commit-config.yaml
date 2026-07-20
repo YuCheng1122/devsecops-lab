@@ -1,3 +1,6 @@
+# Layer 1 · 本機層 — 對應投影片 STEP 1（裝 pre-commit、驗證 protect 模式 + allowlist）
+# 這一層只跑得快、破壞力小的檢查，適合每次 commit 前都跑：一般檔案衛生檢查 + gitleaks。
+# pip-audit、semgrep 故意不放這裡（放到 CI 層），理由見 .gitleaks.toml 開頭的說明。
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -7,6 +10,8 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
 
+  # gitleaks 這裡跑的是 protect 模式（只掃這次要 commit 的 diff），不是 detect 模式（掃整個
+  # git history）——兩者的差異就是投影片「SECRET SCAN · TWO MODES」要講的重點。
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.18.2
     hooks:
