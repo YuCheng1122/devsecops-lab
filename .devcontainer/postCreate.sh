@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-pip install -r requirements.txt pip-audit semgrep pre-commit
+pip install --upgrade -r requirements.txt pip-audit semgrep pre-commit
 
 GITLEAKS_VERSION="8.18.2"
 ARCH="$(dpkg --print-architecture)"
