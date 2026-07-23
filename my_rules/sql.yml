@@ -1,0 +1,9 @@
+rules:
+  - id: sql-fstring-injection
+    patterns:
+      - pattern: $QUERY = f"...{$VAR}..."
+    message: >
+      偵測到使用 f-string 拼接 SQL 查詢字串，可能導致 SQL injection。
+      請改用參數化查詢（parameterized query）。
+    languages: [python]
+    severity: ERROR

@@ -38,6 +38,10 @@ jobs:
       # continue-on-error，job 會在這裡就中斷，後面的 SAST 步驟永遠沒機會跑。
       # ─────────────────────────────────────────
 
+      - name: SCA - pip-audit
+        run: pip-audit -r requirements.txt
+        continue-on-error: true
+
       # ─────────────────────────────────────────
       # 待補 2-2：SAST（Static Application Security Testing）— semgrep
       # 做什麼：不執行程式，直接讀原始碼找危險寫法（例如 SQL 組字串、
@@ -48,6 +52,12 @@ jobs:
       # 學員自己寫規則之後才會存在，現在加會找不到路徑而失敗。
       # ─────────────────────────────────────────
 
+      - name: SAST - semgrep
+        run: |
+          semgrep --config=p/python --config=p/owasp-top-ten app/ \
+            --json --output=semgrep-report.json
+        continue-on-error: true
+
       # ─────────────────────────────────────────
       # 待補 2-3：Quality Gate — 把 semgrep-report.json 交給
       # scripts/security_gate.py 判斷要不要擋這個 job
@@ -55,6 +65,9 @@ jobs:
       # JSON 報告，依 severity 分成「擋部署」和「只警告」兩類——
       # 詳細判斷邏輯看 scripts/security_gate.py 開頭的註解。
       # ─────────────────────────────────────────
+
+      - name: Security Quality Gate
+        run: python scripts/security_gate.py semgrep-report.json
 
       - name: Set up Python
         uses: actions/setup-python@v5
